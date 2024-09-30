@@ -25,8 +25,12 @@
 </repositories>
 
 <properties>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <maven.compiler.source>1.8</maven.compiler.source>
+<maven.compiler.target>1.8</maven.compiler.target>
+<maven.compiler.source>1.8</maven.compiler.source>
+<sonar.organization>proy2</sonar.organization>
+<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+<sonar.projectKey>proy2_ride</sonar.projectKey>
+<sonar.login>2041745e3d2e1a641d10ae7bde3df09cff273636</sonar.login>
 </properties>
 
 <!-- https://mvnrepository.com/artifact/junit/junit -->
