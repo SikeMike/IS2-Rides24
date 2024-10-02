@@ -48,7 +48,11 @@ public class GauzatuEragiketaMockW {
 	@Mock
 	protected EntityTransaction et;
 	@Mock
-    private TypedQuery<User> query;
+	 TypedQuery<Double> typedQueryDouble;
+	@Mock
+	TypedQuery<User> typedQueryUser;
+
+	@SuppressWarnings("unused")
 
 	@Before
 	public void init() {
@@ -71,29 +75,81 @@ public class GauzatuEragiketaMockW {
 
 	@Test
 	public void test1() {
-	    try {
-	       
-	    	when(db.find(User.class, "username")).thenReturn(null);
-	    	user=null;
-	       
-	        boolean result = sut.gauzatuEragiketa("username", 100.0, true);
 
-	        // Verificar
-	        assertFalse(result);
-	        /*
-	        verify(et).begin();
-	        verify(et).commit();
-	        verify(et, never()).rollback();
-	        */
-	    } catch (NullPointerException e) {
-	        
-	        System.out.println("Error: NullPointerException atrapada.");
-	        e.printStackTrace();
-	        fail("NullPointerException fue lanzada cuando no debería haberlo sido.");
-	    }
+		try {
+
+			when(db.find(User.class, "username")).thenReturn(null);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDouble);
+			Mockito.when(typedQueryDouble.getSingleResult()).thenReturn(null);
+			
+			boolean result = sut.gauzatuEragiketa("username", 100.0, true);
+
+			// Verificar
+			assertFalse(result);
+			
+			  verify(et).begin(); 
+			  verify(et).commit(); 
+			  verify(et, never()).rollback();
+			 
+		} catch (NullPointerException e) {
+			System.out.println("Error: NullPointerException.");
+			e.printStackTrace();
+			fail("NullPointerException fue lanzada");
+		}
 	}
+	@Test
+	public void test2() {
+		
+		try {
+	
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryDouble);
+			Mockito.when(typedQueryDouble.getSingleResult()).thenReturn(null);
+			
+			boolean result = sut.gauzatuEragiketa(null, 100.0, true);
 
+			// Verificar
+			assertFalse(result);
+			
+			  verify(et).begin(); 
+			  verify(et).commit(); 
+			  verify(et, never()).rollback();
+			 
+		} catch (NullPointerException e) {
+			System.out.println("Error: NullPointerException.");
+			e.printStackTrace();
+			fail("NullPointerException fue lanzada");
+		}
+			
+	}
+	@Test
+	public void test3() {
+		
+		User user= new User("Juan", "1234a", "a");
+		
+		try {
+			when(db.find(User.class, "Juan")).thenReturn(user);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+			Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+			
+			
+			boolean result = sut.gauzatuEragiketa("Juan", 100.0, true);
+
+			// Verificar
+			assertTrue(result);
+			
+			  verify(et).begin(); 
+			  verify(et).commit(); 
+			  verify(et, never()).rollback();
+			 
+		} catch (NullPointerException e) {
+			System.out.println("Error: NullPointerException.");
+			e.printStackTrace();
+			fail("NullPointerException fue lanzada");
+		}
+		
+		
 	
 	
-
+	
+	}
 }
