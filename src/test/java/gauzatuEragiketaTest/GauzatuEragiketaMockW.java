@@ -270,6 +270,26 @@ public class GauzatuEragiketaMockW {
 	}
 
 
+	@Test
+	public void testGauzatuEragiketaException() {
+	    User user = new User("Juan", "1234a", "a");
+	    
+	    // Mockear el TypedQuery<User>
+	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+	    
+	    // Simular una excepción al llamar a db.merge(user)
+	    doThrow(new RuntimeException("Database error")).when(db).merge(user);
+
+	    boolean result = sut.gauzatuEragiketa("Juan", 50.0, true); // Intentar depositar
+
+	    // Verificar que el resultado sea false
+	    assertFalse(result);
+	    
+	    // Verificar que se haya hecho rollback
+	    verify(db.getTransaction()).rollback(); // Asegurarse de que se llama a rollback
+	}
 
 
 	
