@@ -33,7 +33,7 @@ public class DataAccess {
 
 	public DataAccess() {
 		if (c.isDatabaseInitialized()) {
-			String fileName = c.getDbFilename();
+			String fileName = c.getDbFilename();  
 
 			File fileToDelete = new File(fileName);
 			if (fileToDelete.delete()) {
@@ -79,7 +79,7 @@ public class DataAccess {
 			driver2.setBalkop(3);
 			db.persist(driver1);
 			db.persist(driver2);
-
+  
 			Traveler traveler1 = new Traveler("Unax", "789");
 			traveler1.setIzoztatutakoDirua(68);
 			traveler1.setMoney(100);
@@ -90,7 +90,7 @@ public class DataAccess {
 			traveler2.setBalkop(3);
 			db.persist(traveler1);
 			db.persist(traveler2);
-
+  
 			Calendar cal = Calendar.getInstance();
 			cal.set(2024, Calendar.MAY, 20);
 			Date date1 = UtilDate.trim(cal.getTime());
@@ -322,7 +322,7 @@ public class DataAccess {
 			emf = Persistence.createEntityManagerFactory("objectdb:" + fileName);
 			db = emf.createEntityManager();
 		} else {
-			Map<String, String> properties = new HashMap<>();
+			Map<String, String> properties = new HashMap<>(); 
 			properties.put("javax.persistence.jdbc.user", c.getUser());
 			properties.put("javax.persistence.jdbc.password", c.getPassword());
 
@@ -340,9 +340,11 @@ public class DataAccess {
 	}
 
 	public User getUser(String erab) {
-		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-		query.setParameter("username", erab);
-		return query.getSingleResult();
+		
+			TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+			query.setParameter("username", erab);
+			return query.getSingleResult();
+		
 	}
 
 	public double getActualMoney(String erab) {
@@ -484,6 +486,7 @@ public class DataAccess {
 		try {
 			db.getTransaction().begin();
 			User user = getUser(username);
+			System.out.println(user);
 			if (user != null) {
 				double currentMoney = user.getMoney();
 				if (deposit) {
@@ -504,7 +507,7 @@ public class DataAccess {
 			e.printStackTrace();
 			db.getTransaction().rollback();
 			return false;
-		}
+		}	
 	}
 
 	public void addMovement(User user, String eragiketa, double amount) {

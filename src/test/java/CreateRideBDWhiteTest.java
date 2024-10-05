@@ -33,9 +33,9 @@ public class CreateRideBDWhiteTest {
 	//sut.createRide:  The Driver is null. The test must return null. If  an Exception is returned the createRide method is not well implemented.
 		public void test1() {
 		Ride ride=null;
-			try {
-				
-				//define parameters
+			try {     
+				  
+				//define parameters  
 				driver=null;
 
 				String rideFrom="Donostia";
@@ -50,7 +50,7 @@ public class CreateRideBDWhiteTest {
 					rideDate = sdf.parse("05/10/2026");
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e.printStackTrace();      
 				}	
 				
 				

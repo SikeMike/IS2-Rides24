@@ -7,10 +7,12 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import configuration.ConfigXML;
 import domain.Driver;
 import domain.Ride;
+import domain.User;
 
 
 public class TestDataAccess {
@@ -28,10 +30,10 @@ public class TestDataAccess {
 		
 	}
 
-	
-	public void open(){
+	       
+	public void open(){ 
 		
-
+  
 		String fileName=c.getDbFilename();
 		
 		if (c.isDatabaseLocal()) {
@@ -50,6 +52,25 @@ public class TestDataAccess {
 
 		
 	}
+	
+	
+	public void initializeDB() {
+	    db.getTransaction().begin(); // Asegúrate de iniciar la transacción
+	    Driver driver1 = new Driver("Urtzi2", "123");
+	    driver1.setMoney(215); 
+	    driver1.setBalorazioa(14);
+	    driver1.setBalkop(3);
+	    Driver driver2 = new Driver("Zuri2", "456");
+	    driver2.setMoney(115); 
+	    driver2.setBalorazioa(10);
+	    driver2.setBalkop(3);
+	    db.persist(driver1);
+	    db.persist(driver2);
+	    db.getTransaction().commit(); // Asegúrate de hacer commit después de persistir
+	}
+	
+
+	
 	public void close(){
 		db.close();
 		System.out.println("TestDataAccess closed");
@@ -132,6 +153,57 @@ public class TestDataAccess {
 			} else 
 			return null;
 
+		}
+		
+		public User getUser(String erab) {
+			try {
+				TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+				query.setParameter("username", erab);
+				return query.getSingleResult();
+			}catch (Exception e) {
+				System.out.println(e);
+			}
+			return null;
+		}
+
+		
+		public boolean gauzatuEragiketa(String username, double amount, boolean deposit) {
+			try {
+				db.getTransaction().begin();
+				User user = getUser(username);
+				System.out.println(user);
+				if (user != null) {
+					double currentMoney = user.getMoney();
+					if (deposit) {
+						user.setMoney(currentMoney + amount);
+					} else {
+						if ((currentMoney - amount) < 0)
+							user.setMoney(0);
+						else
+							user.setMoney(currentMoney - amount);
+					}
+					db.merge(user);
+					db.getTransaction().commit();
+					return true;
+				}
+				db.getTransaction().commit();
+				return false;
+			} catch (Exception e) {
+				e.printStackTrace();
+				db.getTransaction().rollback();
+				return false;
+			}	
+		}
+		
+		public void removeAllDrivers() {
+		    db.getTransaction().begin();
+		    try {
+		        db.createQuery("DELETE FROM Driver").executeUpdate(); // Elimina todos los drivers
+		        db.getTransaction().commit();
+		    } catch (Exception e) {
+		        db.getTransaction().rollback();
+		        e.printStackTrace();
+		    }
 		}
 
 

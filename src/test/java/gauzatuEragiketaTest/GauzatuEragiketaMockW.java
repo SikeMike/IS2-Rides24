@@ -6,12 +6,15 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -72,7 +75,7 @@ public class GauzatuEragiketaMockW {
 	public void tearDown() {
 		persistenceMock.close();
 	}
- 
+
 	User user;
 
 	@Test
@@ -154,156 +157,143 @@ public class GauzatuEragiketaMockW {
 
 	@Test
 	public void testDepositUserFound() {
-	    try {
-	        // Crear un objeto User real 
-	        User user = new User("Juan", "1234a", "a");
-	        user.setMoney(100.0); // Establecer saldo inicial
+		try {
 
-	        // Mockear el TypedQuery<User>
-	        TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+			User user = new User("Juan", "1234a", "a");
+			user.setMoney(100.0);
 
-	        // Configurar el comportamiento de la base de datos para crear la consulta
-	        Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+			TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
 
-	        // Configurar el comportamiento del query para retornar el usuario simulado
-	        Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
 
-	        // Simular que el parámetro de la query también se establece correctamente
-	        Mockito.when(typedQueryUser.setParameter(Mockito.anyString(), Mockito.any())).thenReturn(typedQueryUser);
+			Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
 
-	        // Llamar a la operación
-	        boolean result = sut.gauzatuEragiketa("username", 50.0, true);
+			Mockito.when(typedQueryUser.setParameter(Mockito.anyString(), Mockito.any())).thenReturn(typedQueryUser);
 
-	        // Verificar resultado esperado
-	        assertTrue(result);  // Asegurar que la operación retorna true
-	        assertEquals(150.0, user.getMoney(), 0.01);  // Verificar que el dinero se sumó correctamente
+			boolean result = sut.gauzatuEragiketa("username", 50.0, true);
 
-	        // Verificar interacciones
-	        verify(db).merge(user);
-	        verify(et).begin();
-	        verify(et).commit();
-	        verify(et, never()).rollback();
-	    } catch (NullPointerException e) {
-	        fail("NullPointerException fue lanzada.");
-	    }
+			assertTrue(result);
+			assertEquals(150.0, user.getMoney(), 0.01);
+
+			verify(db).merge(user);
+			verify(et).begin();
+			verify(et).commit();
+			verify(et, never()).rollback();
+		} catch (NullPointerException e) {
+			fail("NullPointerException fue lanzada.");
+		}
 	}
-	
+
 	@Test
 	public void testDepositUserSufficientFunds() {
-	    try {
-	        // Crear un objeto User real
-	        User user = new User("Juan", "1234a", "a");
-	        user.setMoney(100.0); // Establecer saldo inicial
+		try {
 
-	        // Mockear el TypedQuery<User>
-	        TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	        Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	        Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
-	        Mockito.when(typedQueryUser.setParameter(Mockito.anyString(), Mockito.any())).thenReturn(typedQueryUser);
+			User user = new User("Juan", "1234a", "a");
+			user.setMoney(100.0);
 
-	        // Llamar a la operación con un monto que no exceda el saldo
-	        boolean result = sut.gauzatuEragiketa("username", 50.0, true);
+			TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+			Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+			Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+			Mockito.when(typedQueryUser.setParameter(Mockito.anyString(), Mockito.any())).thenReturn(typedQueryUser);
 
-	        // Verificar que el resultado sea true
-	        assertTrue(result);
-	        assertEquals(150.0, user.getMoney(), 0.01); // Verificar que el dinero se aumentó correctamente
+			boolean result = sut.gauzatuEragiketa("username", 50.0, true);
 
-	        // Verificar interacciones
-	        verify(db).merge(user);
-	        verify(et).begin();
-	        verify(et).commit();
-	        verify(et, never()).rollback();
-	    } catch (NullPointerException e) {
-	        fail("NullPointerException fue lanzada.");
-	    }
+			assertTrue(result);
+			assertEquals(150.0, user.getMoney(), 0.01);
+
+			verify(db).merge(user);
+			verify(et).begin();
+			verify(et).commit();
+			verify(et, never()).rollback();
+		} catch (NullPointerException e) {
+			fail("NullPointerException fue lanzada.");
+		}
 	}
-	
+
 	@Test
 	public void testWithdrawUserInsufficientFunds() {
-	    User user = new User("Juan", "1234a", "a");
-	    user.setMoney(30.0); // Establecer saldo inicial
+		User user = new User("Juan", "1234a", "a");
+		user.setMoney(30.0);
 
-	    // Mockear el TypedQuery<User>
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
-	    
-	    boolean result = sut.gauzatuEragiketa("Juan", 50.0, false); // Retirar 50
+		TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+		Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+		Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
 
-	    assertTrue(result);
-	    assertEquals(0.0, user.getMoney(), 0.01); // Verificar que el dinero se ha ajustado a 0
-	    verify(db).merge(user); // Verificar que se haya guardado el usuario
+		boolean result = sut.gauzatuEragiketa("Juan", 50.0, false);
+
+		assertTrue(result);
+		assertEquals(0.0, user.getMoney(), 0.01);
+		verify(db).merge(user);
 	}
-	
+
 	@Test
 	public void testDepositUserSufficientFunds1() {
-	    User user = new User("Juan", "1234a", "a");
-	    user.setMoney(100.0); // Establecer saldo inicial
+		User user = new User("Juan", "1234a", "a");
+		user.setMoney(100.0);
 
-	    // Mockear el TypedQuery<User>
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
-	    
-	    boolean result = sut.gauzatuEragiketa("Juan", 50.0, true); // Depositar 50
+		TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+		Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+		Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
 
-	    assertTrue(result);
-	    assertEquals(150.0, user.getMoney(), 0.01); // Verificar que el dinero se aumentó correctamente
-	    verify(db).merge(user); // Verificar que se haya guardado el usuario
+		boolean result = sut.gauzatuEragiketa("Juan", 50.0, true);
+
+		assertTrue(result);
+		assertEquals(150.0, user.getMoney(), 0.01);
+		verify(db).merge(user);
 	}
-	
+
 	@Test
 	public void testWithdrawUserExactFunds() {
-	    User user = new User("Juan", "1234a", "a");
-	    user.setMoney(50.0); // Establecer saldo inicial
+		User user = new User("Juan", "1234a", "a");
+		user.setMoney(50.0);
 
-	    // Mockear el TypedQuery<User>
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
-	    
-	    boolean result = sut.gauzatuEragiketa("Juan", 50.0, false); // Retirar 50
+		TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
+		Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+		Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
 
-	    assertTrue(result);
-	    assertEquals(0.0, user.getMoney(), 0.01); // Verificar que el dinero se ha ajustado a 0
-	    verify(db).merge(user); // Verificar que se haya guardado el usuario
+		boolean result = sut.gauzatuEragiketa("Juan", 50.0, false);
+
+		assertTrue(result);
+		assertEquals(0.0, user.getMoney(), 0.01);
+		verify(db).merge(user);
 	}
-
 
 	@Test
 	public void testGauzatuEragiketaException() {
-	    User user = new User("Juan", "1234a", "a");
-	    
-	    // Mockear el TypedQuery<User>
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
-	    
-	    // Simular una excepción al llamar a db.merge(user)
-	    doThrow(new RuntimeException("Database error")).when(db).merge(user);
+		// Capturar la salida estándar de errores
+		PrintStream originalErr = System.err;
+		ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+		System.setErr(new PrintStream(errContent));
 
-	    boolean result = sut.gauzatuEragiketa("Juan", 50.0, true); // Intentar depositar
+		when(db.getTransaction()).thenReturn(et);
+		when(db.find(User.class, "username")).thenThrow(new RuntimeException("Database error"));
 
-	    // Verificar que el resultado sea false
-	    assertFalse(result);
-	    
-	    // Verificar que se haya hecho rollback
-	    verify(db.getTransaction()).rollback(); // Asegurarse de que se llama a rollback
+		boolean result = sut.gauzatuEragiketa("username", 50.0, true);
+
+		assertFalse(result);
+
+		verify(et).rollback();
+
+		System.setErr(originalErr);
+
 	}
 
+	@Test
+	public void testGauzatuEragiketa0amount() {
+		User user = new User("Juan", "1234a", "a");
+		user.setMoney(100.0);
 
-	
-	
+		when(db.getTransaction()).thenReturn(et);
+		Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
+		Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
 
+		boolean result = sut.gauzatuEragiketa("Juan", 0.0, true);
 
-
-
-	
-
-
-
-
-
-	
+		// Verificar que no se modifica el dinero del usuario
+		assertTrue(result);
+		assertEquals(100.0, user.getMoney(), 0.01);
+		verify(db).merge(user);
+		verify(et).commit();
+	}
 
 }
