@@ -3,5 +3,5 @@ projectKey=ej1_rides
 serverUrl=https://sonarcloud.io
 serverVersion=8.0.0.56940
 dashboardUrl=https://sonarcloud.io/dashboard?id=ej1_rides
-ceTaskId=AZJieb6rpabIVU72Shtx
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZJieb6rpabIVU72Shtx
+ceTaskId=AZJioxoPtiatgzNZFicL
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZJioxoPtiatgzNZFicL

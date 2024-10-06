@@ -1,0 +1,4 @@
+gui.AlertaSortuGUI#jButtonCloseActionPerformed(Ljava/awt/event/ActionEvent;)V
+b2af489eb37410bedd3dacfc6ee4ef24
+==
+setVisible java.awt.Window#setVisible(Z)V

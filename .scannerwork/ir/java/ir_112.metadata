@@ -1,5 +1,5 @@
 gui.DeskontuKudeatuGUI#<init>(Ljava/lang/String;)V
-0f844404ead5483b059c7aa46b37486e
+e4ae49b2884e0aabf1a63bd66a6952e0
 javax.swing.JTable#<init>()V
 java.util.ResourceBundle#getString(Ljava/lang/String;)Ljava/lang/String;
 javax.swing.JButton#<init>(Ljava/lang/String;)V
