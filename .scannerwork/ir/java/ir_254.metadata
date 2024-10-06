@@ -1,0 +1,8 @@
+gauzatuEragiketaTest.GauzatuEragiketaBDBlackTest#setUp()V
+55001af87035127b226ee1527693acd6
+testOperations.TestDataAccess#instance-init#
+testOperations.TestDataAccess#<init>()V
+==
+initializeDB testOperations.TestDataAccess#initializeDB()V
+removeAllDrivers testOperations.TestDataAccess#removeAllDrivers()V
+open testOperations.TestDataAccess#open()V

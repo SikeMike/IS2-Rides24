@@ -1,0 +1,11 @@
+gauzatuEragiketaTest.GauzatuEragiketaMockW#testGauzatuEragiketaException()V
+0d81c037668e8b82216f15b6e268e6b5
+java.io.PrintStream#instance-init#
+java.io.PrintStream#<init>(Ljava/io/OutputStream;)V
+java.lang.System#setErr(Ljava/io/PrintStream;)V
+java.lang.RuntimeException#<init>(Ljava/lang/String;)V
+java.io.ByteArrayOutputStream#<init>()V
+java.io.ByteArrayOutputStream#instance-init#
+java.lang.RuntimeException#instance-init#
+==
+gauzatuEragiketa dataAccess.DataAccess#gauzatuEragiketa(Ljava/lang/String;DZ)Z

@@ -1,0 +1,6 @@
+gauzatuEragiketaTest.GauzatuEragiketaBDBlackTest#tes5()V
+b4b4f10195966652a9bfafcda1dbb037
+==
+getUser testOperations.TestDataAccess#getUser(Ljava/lang/String;)Ldomain/User;
+getMoney domain.User#getMoney()D
+gauzatuEragiketa testOperations.TestDataAccess#gauzatuEragiketa(Ljava/lang/String;DZ)Z

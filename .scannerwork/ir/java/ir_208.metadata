@@ -1,0 +1,6 @@
+businessLogic.BLFacadeImplementation#initializeBD()V
+2e8a38764c0473449c710a459234e3a3
+==
+initializeDB dataAccess.DataAccess#initializeDB()V
+close dataAccess.DataAccess#close()V
+open dataAccess.DataAccess#open()V

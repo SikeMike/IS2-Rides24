@@ -1,0 +1,8 @@
+gauzatuEragiketaTest.GauzatuEragiketaBDBlackTest#test8()V
+8824abd28e5c4acc36175452003317ad
+==
+println java.io.PrintStream#println(D)V
+getUser testOperations.TestDataAccess#getUser(Ljava/lang/String;)Ldomain/User;
+getMoney domain.User#getMoney()D
+println java.io.PrintStream#println(Ljava/lang/String;)V
+gauzatuEragiketa testOperations.TestDataAccess#gauzatuEragiketa(Ljava/lang/String;DZ)Z

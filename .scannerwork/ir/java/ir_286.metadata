@@ -1,0 +1,4 @@
+gauzatuEragiketaTest.GauzatuEragiketaMockB#init()V
+62c8a71c6c9293ae58d8152f558bdde6
+dataAccess.DataAccess#instance-init#
+dataAccess.DataAccess#<init>(Ljavax/persistence/EntityManager;)V

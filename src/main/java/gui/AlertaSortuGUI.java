@@ -22,12 +22,12 @@ public class AlertaSortuGUI extends JFrame {
 
 	private JTextField fieldOrigin = new JTextField();
 	private JTextField fieldDestination = new JTextField();
-
+	 private static final String et = "etiqueta";
 	private JLabel jLabelOrigin = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.LeavingFrom"));
+			ResourceBundle.getBundle(et).getString("CreateRideGUI.LeavingFrom"));
 	private JLabel jLabelDestination = new JLabel(
-			ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.GoingTo"));
-	private JLabel jLabRideDate = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.RideDate"));
+			ResourceBundle.getBundle(et).getString("CreateRideGUI.GoingTo"));
+	private JLabel jLabRideDate = new JLabel(ResourceBundle.getBundle(et).getString("CreateRideGUI.RideDate"));
 
 	private JCalendar jCalendar = new JCalendar();
 	private Calendar calendarAct = null;
@@ -38,8 +38,8 @@ public class AlertaSortuGUI extends JFrame {
 
 	private JScrollPane scrollPaneEvents = new JScrollPane();
 
-	private JButton jButtonCreate = new JButton(ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.AddAlert"));
-	private JButton jButtonClose = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
+	private JButton jButtonCreate = new JButton(ResourceBundle.getBundle(et).getString("AlertGUI.AddAlert"));
+	private JButton jButtonClose = new JButton(ResourceBundle.getBundle(et).getString("Close"));
 	private JLabel jLabelMsg = new JLabel();
 	private JLabel jLabelError = new JLabel();
 
@@ -62,7 +62,7 @@ public class AlertaSortuGUI extends JFrame {
 		this.traveler = appFacadeInterface.getTraveler(username);
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.AddAlert"));
+		this.setTitle(ResourceBundle.getBundle(et).getString("AlertGUI.AddAlert"));
 
 		jLabelOrigin.setBounds(new Rectangle(33, 94, 92, 20));
 
@@ -74,7 +74,7 @@ public class AlertaSortuGUI extends JFrame {
 		jButtonCreate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				jLabelMsg.setText("");
-				String error = field_Errors();
+				String error = validateFieldErrors();
 				if (error != null)
 					jLabelMsg.setText(error);
 				else {
@@ -82,20 +82,20 @@ public class AlertaSortuGUI extends JFrame {
 					Date currentDate = new Date();
 					if (selectedDate.before(UtilDate.trim(currentDate))
 							|| UtilDate.trim(selectedDate).equals(UtilDate.trim(currentDate))) {
-						jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.InvalidDate"));
+						jLabelMsg.setText(ResourceBundle.getBundle(et).getString("AlertGUI.InvalidDate"));
 					} else {
 						Alert newAlert = new Alert(fieldOrigin.getText(), fieldDestination.getText(),
 								UtilDate.trim(selectedDate), traveler);
 						boolean success = appFacadeInterface.createAlert(newAlert);
 						if (success) {
-							jLabelMsg.setText(ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.AlertCreated"));
+							jLabelMsg.setText(ResourceBundle.getBundle(et).getString("AlertGUI.AlertCreated"));
 							traveler.addAlert(newAlert);
 							JFrame a = new AlertakKudeatuGUI(username);
 							a.setVisible(true);
-							jButtonClose_actionPerformed(e);
+							jButtonCloseActionPerformed(e);
 						} else {
 							jLabelMsg.setText(
-									ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.AlertCreateFail"));
+									ResourceBundle.getBundle(et).getString("AlertGUI.AlertCreateFail"));
 						}
 					}
 				}
@@ -106,7 +106,7 @@ public class AlertaSortuGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				JFrame a = new AlertakKudeatuGUI(username);
 				a.setVisible(true);
-				jButtonClose_actionPerformed(e);
+				jButtonCloseActionPerformed(e);
 			}
 		});
 
@@ -181,20 +181,20 @@ public class AlertaSortuGUI extends JFrame {
 
 	}
 
-	private void jButtonClose_actionPerformed(ActionEvent e) {
+	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 
-	private String field_Errors() {
-		try {
-			if ((fieldOrigin.getText().length() == 0) || (fieldDestination.getText().length() == 0))
-				return ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorQuery");
-			else
-				return null;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			return null;
-
-		}
+	private String validateFieldErrors() {
+	    try {
+	        if ((fieldOrigin.getText().length() == 0) || (fieldDestination.getText().length() == 0))
+	            return ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorQuery");
+	        else
+	            return null;
+	    } catch (Exception e1) {
+	        e1.printStackTrace();
+	        return null;
+	    }
 	}
+
 }

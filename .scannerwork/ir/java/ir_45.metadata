@@ -1,0 +1,8 @@
+gauzatuEragiketaTest.GauzatuEragiketaMockW#testDepositUserSufficientFunds1()V
+6b6f3746e842256d993d178b4374f10c
+domain.User#instance-init#
+domain.User#<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+==
+setMoney domain.User#setMoney(D)V
+getMoney domain.User#getMoney()D
+gauzatuEragiketa dataAccess.DataAccess#gauzatuEragiketa(Ljava/lang/String;DZ)Z

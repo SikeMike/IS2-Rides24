@@ -1,0 +1,8 @@
+testOperations.TestDataAccess#initializeDB()V
+774300445f9023f1fee9a1f408d407ba
+domain.Driver#<init>(Ljava/lang/String;Ljava/lang/String;)V
+domain.Driver#instance-init#
+==
+setMoney domain.User#setMoney(D)V
+setBalorazioa domain.User#setBalorazioa(D)V
+setBalkop domain.User#setBalkop(I)V

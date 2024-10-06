@@ -1,0 +1,115 @@
+
+)domain.Admin2#equals(Ljava/lang/Object;)ZI
+?C:/Users/mikel/git/IS2-Rides24/src/main/java/domain/Admin2.java5 5("6*!
+29 9("
+9	 9(
+""*ı
+38 8( çä
+8 8("
+%2java.lang.Class",java.lang.Object#getClass()Ljava/lang/Class;*-
+
+__unknown_file (
+domain.Admin22
+getClass()ïí
+8& 8(4
+%3java.lang.Class",java.lang.Object#getClass()Ljava/lang/Class;*5
+
+__unknown_file (
+
+objjava.lang.Object2
+getClass()µ
+≤
+8 8(4
+%4boolean"	__compare*"
+
+__unknown_file (
+!=*3
+
+__unknown_file (
+
+%2java.lang.Class*3
+
+__unknown_file (
+
+%3java.lang.Class*
+2
+1*æ
+48	 8(¶
+£
+8	 8(
+%1boolean"	__compare*"
+
+__unknown_file (
+==*5
+
+__unknown_file (
+
+objjava.lang.Object*"
+
+__unknown_file (
+""*
+2
+3*!
+57 7("
+7	 7(
+""*…
+66	 6(±
+Æ
+6	 6(
+%0boolean"	__compare*"
+
+__unknown_file (
+==*-
+
+__unknown_file (
+domain.Admin2*5
+
+__unknown_file (
+
+objjava.lang.Object*
+4
+5*‹
+1: :( a
+_
+: :(!
+otherdomain.Admin2"__id*5
+
+__unknown_file (
+
+objjava.lang.Objectg
+e
+; ;(#
+%5java.lang.String"__id*;
+
+__unknown_file (*
+domain.Admin2"
+
+usernamen
+l
+;% ;(3
+%6java.lang.String"__id*B
+
+__unknown_file (&*$
+
+otherdomain.Admin2"
+
+username¸
+˘
+; ;(4
+%7boolean"?java.util.Objects#equals(Ljava/lang/Object;Ljava/lang/Object;)Z*1
+
+__unknown_file ("
+java.util.Objects*4
+
+__unknown_file (
+
+%5java.lang.String*4
+
+__unknown_file (
+
+%6java.lang.String"
+; ;(5
+"":#
+5 5(!
+objjava.lang.ObjectB
+domain.Admin2HX

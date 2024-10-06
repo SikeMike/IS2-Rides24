@@ -24,21 +24,21 @@ public class AlertaAurkituakGUI extends JFrame {
 	}
 
 	public AlertaAurkituakGUI(String username) {
-		
+		String e = "Etiquetas";
 		setBussinessLogic(TravelerGUI.getBusinessLogic());
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.Alert"));
+		this.setTitle(ResourceBundle.getBundle(e).getString("AlertGUI.Alert"));
 		setSize(new Dimension(600, 400));
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 
 		List<Alert> alertList = appFacadeInterface.getAlertsByUsername(username);
 		DefaultTableModel model = new DefaultTableModel(
-				new Object[] { ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.Zenbakia"),
-						ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.LeavingFrom"),
-						ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.GoingTo"),
-						ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.RideDate"),
-						ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.Aurkitua"),
-						ResourceBundle.getBundle("Etiquetas").getString("AlertGUI.Aktibo") },
+				new Object[] { ResourceBundle.getBundle(e).getString("AlertGUI.Zenbakia"),
+						ResourceBundle.getBundle(e).getString("CreateRideGUI.LeavingFrom"),
+						ResourceBundle.getBundle(e).getString("CreateRideGUI.GoingTo"),
+						ResourceBundle.getBundle(e).getString("CreateRideGUI.RideDate"),
+						ResourceBundle.getBundle(e).getString("AlertGUI.Aurkitua"),
+						ResourceBundle.getBundle(e).getString("AlertGUI.Aktibo") },
 				0);
 		table = new JTable(model);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -62,16 +62,13 @@ public class AlertaAurkituakGUI extends JFrame {
 			}
 		}
 
-		closeButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeButton_actionPerformed(e);
-			}
-		});
+		closeButton = new JButton(ResourceBundle.getBundle(e).getString("Close"));
+		closeButton.addActionListener(actionEvent -> closeButtonActionPerformed(actionEvent));
+
 		getContentPane().add(closeButton, BorderLayout.SOUTH);
 	}
 
-	private void closeButton_actionPerformed(ActionEvent e) {
+	private void closeButtonActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}
 }

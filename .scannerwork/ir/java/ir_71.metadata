@@ -1,0 +1,4 @@
+gui.EzabatuGUI#jButtonClose_actionPerformed(Ljava/awt/event/ActionEvent;)V
+236366a3838cd54cf135b3b048c82199
+==
+setVisible java.awt.Window#setVisible(Z)V
