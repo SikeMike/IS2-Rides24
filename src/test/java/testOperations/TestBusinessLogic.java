@@ -19,7 +19,7 @@ public class TestBusinessLogic {
 			dbManagerTest.close();
 		}
 		
-		 
+		 //A
 		public boolean removeDriver(String driverEmail) {
 			dbManagerTest.open();
 			boolean b=dbManagerTest.removeDriver(driverEmail);
