@@ -1,5 +1,5 @@
 gauzatuEragiketaTest.GauzatuEragiketaBDWhiteTest#test6()V
-d979eb98bef57f0d676f008c0ea175d5
+61c0f6c737a6335263a7fa93624e064c
 ==
 getMoney domain.User#getMoney()D
 println java.io.PrintStream#println(Ljava/lang/String;)V

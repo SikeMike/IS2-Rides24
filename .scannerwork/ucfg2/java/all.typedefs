@@ -4963,16 +4963,4 @@ tearDown()<gauzatuEragiketaTest.GauzatuEragiketaBDWhiteTest#tearDown()VD
 -actionPerformed(Ljava/awt/event/ActionEvent;)Cgui.AlertaSortuGUI$2#actionPerformed(Ljava/awt/event/ActionEvent;)Vó
 gui.AlertaSortuGUI$3!java.beans.PropertyChangeListenerjava.lang.Object*
 <init>()gui.AlertaSortuGUI$3#<init>()Vz
-0propertyChange(Ljava/beans/PropertyChangeEvent;)Fgui.AlertaSortuGUI$3#propertyChange(Ljava/beans/PropertyChangeEvent;)Vó
-gui.AdminGUI$4java.awt.event.ActionListenerjava.lang.Object@
-<init>(Lgui/AdminGUI;)&gui.AdminGUI$4#<init>(Lgui/AdminGUI;)Vn
--actionPerformed(Ljava/awt/event/ActionEvent;)=gui.AdminGUI$4#actionPerformed(Ljava/awt/event/ActionEvent;)Vó
-gui.AdminGUI$3java.awt.event.ActionListenerjava.lang.Object@
-<init>(Lgui/AdminGUI;)&gui.AdminGUI$3#<init>(Lgui/AdminGUI;)Vn
--actionPerformed(Ljava/awt/event/ActionEvent;)=gui.AdminGUI$3#actionPerformed(Ljava/awt/event/ActionEvent;)V—
-gui.AdminGUI$2java.awt.event.ActionListenerjava.lang.Objectd
-(<init>(Lgui/AdminGUI;Ljava/lang/String;)8gui.AdminGUI$2#<init>(Lgui/AdminGUI;Ljava/lang/String;)Vn
--actionPerformed(Ljava/awt/event/ActionEvent;)=gui.AdminGUI$2#actionPerformed(Ljava/awt/event/ActionEvent;)V¥
-gui.AlertaAurkituakGUI$1java.awt.event.ActionListenerjava.lang.Object^
- <init>(Lgui/AlertaAurkituakGUI;):gui.AlertaAurkituakGUI$1#<init>(Lgui/AlertaAurkituakGUI;)Vx
--actionPerformed(Ljava/awt/event/ActionEvent;)Ggui.AlertaAurkituakGUI$1#actionPerformed(Ljava/awt/event/ActionEvent;)V
+0propertyChange(Ljava/beans/PropertyChangeEvent;)Fgui.AlertaSortuGUI$3#propertyChange(Ljava/beans/PropertyChangeEvent;)V

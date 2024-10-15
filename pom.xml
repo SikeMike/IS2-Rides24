@@ -1,36 +1,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>Rides24</groupId>
-  <artifactId>Rides24</artifactId>
+  <artifactId>ic</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
 <build>
     <plugins>
-	<plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19.1</version>
-          <configuration>
-               <testFailureIgnore>true</testFailureIgnore>
-            </configuration>
-        </plugin>
-   </plugins>
-</build>
- <repositories>
-	<repository>
-		<id>objectdb</id>
-		<name>ObjectDB Repository</name>
-		<url>https://m2.objectdb.com</url>
-	</repository>
-</repositories>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>objectdb</id>
+			<name>ObjectDB Repository</name>
+			<url>https://m2.objectdb.com</url>
+		</repository>
+	</repositories>
 
 <properties>
 <maven.compiler.target>1.8</maven.compiler.target>
 <maven.compiler.source>1.8</maven.compiler.source>
-<sonar.organization>proy2</sonar.organization>
+<sonar.organization>klk</sonar.organization>
 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-<sonar.projectKey>proy2_ride</sonar.projectKey>
-<sonar.login>2041745e3d2e1a641d10ae7bde3df09cff273636</sonar.login>
+<sonar.projectKey>klk_ic</sonar.projectKey>
+<sonar.login>69376c68712c297f348d042bafa47dba0021f08f</sonar.login>
 </properties>
 
 <!-- https://mvnrepository.com/artifact/junit/junit -->

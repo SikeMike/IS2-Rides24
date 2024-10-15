@@ -1,5 +1,5 @@
 gui.AlertaSortuGUI#<init>(Ljava/lang/String;)V
-f544fb880d59171fe0df2000313d3dd5
+9c9d2629a5ec636f064ace5c08ced18b
 java.awt.Dimension#<init>(II)V
 gui.AlertaSortuGUI#setBussinessLogic(LbusinessLogic/BLFacade;)V
 java.util.ResourceBundle#getString(Ljava/lang/String;)Ljava/lang/String;

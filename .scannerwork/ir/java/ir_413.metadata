@@ -1,5 +1,5 @@
 gui.MoneyGUI#<init>(Ljava/lang/String;)V
-90ada0e36ec258577c2ba42b43f39d05
+663bbb1f92df6a39e9915692c6a9436f
 java.awt.Dimension#<init>(II)V
 gui.LoginGUI#getBusinessLogic()LbusinessLogic/BLFacade;
 java.util.ResourceBundle#getString(Ljava/lang/String;)Ljava/lang/String;

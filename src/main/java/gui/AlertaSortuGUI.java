@@ -181,7 +181,7 @@ public class AlertaSortuGUI extends JFrame {
 		});
 
 	}
-
+	//a
 	private void jButtonCloseActionPerformed(ActionEvent e) {
 		this.setVisible(false);
 	}

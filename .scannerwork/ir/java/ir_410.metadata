@@ -1,5 +1,5 @@
 gui.MoneyGUI#instance-init#
-150d9ae53a4d3ca0af549df3205a62c7
+0425d451e627ab47619460c15908a656
 javax.swing.JTextField#instance-init#
 javax.swing.JTextField#<init>()V
 java.util.ResourceBundle#getString(Ljava/lang/String;)Ljava/lang/String;

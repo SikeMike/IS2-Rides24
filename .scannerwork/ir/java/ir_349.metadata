@@ -1,5 +1,5 @@
 gui.ArazoaGUI#<init>(Ljava/lang/String;Ljava/lang/String;Ldomain/Booking;)V
-00757ce4edc0d5698b7b746cad77f3a2
+19608c775213aa291f79709ada5b378c
 java.util.ResourceBundle#getString(Ljava/lang/String;)Ljava/lang/String;
 javax.swing.JButton#<init>()V
 gui.ArazoaGUI#setBussinessLogic(LbusinessLogic/BLFacade;)V
