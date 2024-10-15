@@ -50,7 +50,7 @@
 <sonar.organization>klk</sonar.organization>
 <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 <sonar.projectKey>klk_ic</sonar.projectKey>
-<sonar.login>69376c68712c297f348d042bafa47dba0021f08f</sonar.login>
+<sonar.login>aa5625f57d45c43051f9f8492cd92e68a0b93931</sonar.login>
 </properties>
 
 <!-- https://mvnrepository.com/artifact/junit/junit -->

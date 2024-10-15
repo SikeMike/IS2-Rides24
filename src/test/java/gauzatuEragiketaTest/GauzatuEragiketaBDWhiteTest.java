@@ -28,7 +28,7 @@ public class GauzatuEragiketaBDWhiteTest {
 
 	// sut:system under test
 	static TestDataAccess testDA = new TestDataAccess();
-
+	//a
 	@Before
 	public void setUp() {
 		// Abre la conexión a la base de datos
