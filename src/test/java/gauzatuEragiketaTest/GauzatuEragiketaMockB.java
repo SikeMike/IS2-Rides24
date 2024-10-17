@@ -1,22 +1,15 @@
 package gauzatuEragiketaTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,17 +26,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import dataAccess.DataAccess;
-import domain.Driver;
-import domain.Ride;
+
 import domain.User;
-import exceptions.RideAlreadyExistException;
-import exceptions.RideMustBeLaterThanTodayException;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
-import org.junit.*;
-import org.mockito.*;
 
 public class GauzatuEragiketaMockB {
 
@@ -106,14 +92,13 @@ public class GauzatuEragiketaMockB {
 		}
 	}
 	
-	@Test
 	public void test2() {
 	    User user = new User("Juan", "1234a", "a");
 	    user.setMoney(100.0);  // El usuario tiene 100 de saldo inicialmente
 
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+	    TypedQuery<User> mockTypedQueryUser = Mockito.mock(TypedQuery.class);
+	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(mockTypedQueryUser);
+	    Mockito.when(mockTypedQueryUser.getSingleResult()).thenReturn(user);
 
 	    // Intentar depositar un valor negativo, lo cual debería ser inválido
 	    boolean result = sut.gauzatuEragiketa("Juan", -50.0, true);  // Depósito con -50
@@ -124,15 +109,16 @@ public class GauzatuEragiketaMockB {
 	    verify(db, never()).merge(user);  
 	    verify(et).rollback();  
 	}
+
 	
 	@Test
 	public void test3() {
 	    User user = new User("Juan", "1234a", "a");
 	    user.setMoney(100.0);  // El usuario tiene 100 de saldo inicialmente
 
-	    TypedQuery<User> typedQueryUser = Mockito.mock(TypedQuery.class);
-	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(typedQueryUser);
-	    Mockito.when(typedQueryUser.getSingleResult()).thenReturn(user);
+	    TypedQuery<User> mockTypedQueryUser = Mockito.mock(TypedQuery.class);
+	    Mockito.when(db.createQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(mockTypedQueryUser);
+	    Mockito.when(mockTypedQueryUser.getSingleResult()).thenReturn(user);
 
 	    // Intentar retirar un valor negativo, lo cual debería ser inválido
 	    boolean result = sut.gauzatuEragiketa("Juan", -50.0, false);  // Retiro con -50
@@ -143,6 +129,7 @@ public class GauzatuEragiketaMockB {
 	    verify(db, never()).merge(user); 
 	    verify(et).rollback();  
 	}
+
 
    
 }
