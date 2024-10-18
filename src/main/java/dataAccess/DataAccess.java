@@ -28,12 +28,12 @@ public class DataAccess {
 	private EntityManagerFactory emf;
 
 	ConfigXML c = ConfigXML.getInstance();
-	
-	private String adminPass="admin";
+
+	private String adminPass = "admin";
 
 	public DataAccess() {
 		if (c.isDatabaseInitialized()) {
-			String fileName = c.getDbFilename();  
+			String fileName = c.getDbFilename();
 
 			File fileToDelete = new File(fileName);
 			if (fileToDelete.delete()) {
@@ -56,7 +56,8 @@ public class DataAccess {
 		close();
 
 	}
-	//This constructor is used to mock the DB
+
+	// This constructor is used to mock the DB
 	public DataAccess(EntityManager db) {
 		this.db = db;
 	}
@@ -79,7 +80,7 @@ public class DataAccess {
 			driver2.setBalkop(3);
 			db.persist(driver1);
 			db.persist(driver2);
-  
+
 			Traveler traveler1 = new Traveler("Unax", "789");
 			traveler1.setIzoztatutakoDirua(68);
 			traveler1.setMoney(100);
@@ -90,7 +91,7 @@ public class DataAccess {
 			traveler2.setBalkop(3);
 			db.persist(traveler1);
 			db.persist(traveler2);
-  
+
 			Calendar cal = Calendar.getInstance();
 			cal.set(2024, Calendar.MAY, 20);
 			Date date1 = UtilDate.trim(cal.getTime());
@@ -104,11 +105,11 @@ public class DataAccess {
 			cal.set(2024, Calendar.APRIL, 20);
 			Date date4 = UtilDate.trim(cal.getTime());
 
-			driver1.addRide("Donostia", "Madrid", date2, 5, 20); //ride1
-			driver1.addRide("Irun", "Donostia", date2, 5, 2); //ride2
-			driver1.addRide("Madrid", "Donostia", date3, 5, 5); //ride3
-			driver1.addRide("Barcelona", "Madrid", date4, 0, 10); //ride4
-			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); //ride5
+			driver1.addRide("Donostia", "Madrid", date2, 5, 20); // ride1
+			driver1.addRide("Irun", "Donostia", date2, 5, 2); // ride2
+			driver1.addRide("Madrid", "Donostia", date3, 5, 5); // ride3
+			driver1.addRide("Barcelona", "Madrid", date4, 0, 10); // ride4
+			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); // ride5
 
 			Ride ride1 = driver1.getCreatedRides().get(0);
 			Ride ride2 = driver1.getCreatedRides().get(1);
@@ -141,7 +142,7 @@ public class DataAccess {
 			Movement m5 = new Movement(traveler1, "BookFreeze", 3);
 			Movement m6 = new Movement(driver1, "Deposit", 15);
 			Movement m7 = new Movement(traveler1, "Deposit", 168);
-			
+
 			db.persist(m6);
 			db.persist(m7);
 			db.persist(m1);
@@ -149,7 +150,7 @@ public class DataAccess {
 			db.persist(m3);
 			db.persist(m4);
 			db.persist(m5);
-			
+
 			traveler1.addBookedRide(book1);
 			traveler1.addBookedRide(book2);
 			traveler2.addBookedRide(book3);
@@ -167,8 +168,8 @@ public class DataAccess {
 			db.persist(c2);
 			db.persist(c3);
 
-			//Admin a1 = new Admin("Jon", "111");
-			//db.persist(a1);
+			// Admin a1 = new Admin("Jon", "111");
+			// db.persist(a1);
 
 			Discount dis = new Discount("Uda24", 0.2, true);
 			db.persist(dis);
@@ -224,40 +225,41 @@ public class DataAccess {
 	 * @throws RideAlreadyExistException         if the same ride already exists for
 	 *                                           the driver
 	 */
-	
-	//ANALIZAR 
-	
-	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
-			throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
-		System.out.println(
-				">> DataAccess: createRide=> from= " + from + " to= " + to + " driver=" + driverName + " date " + date);
-		if (driverName==null) return null;
-		try {
-			if (new Date().compareTo(date) > 0) {
-				System.out.println("ppppp");
-				throw new RideMustBeLaterThanTodayException(
-						ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorRideMustBeLaterThanToday"));
-			}
 
-			db.getTransaction().begin();
-			Driver driver = db.find(Driver.class, driverName);
-			if (driver.doesRideExists(from, to, date)) {
-				db.getTransaction().commit();
-				throw new RideAlreadyExistException(
-						ResourceBundle.getBundle("Etiquetas").getString("DataAccess.RideAlreadyExist"));
-			}
-			Ride ride = driver.addRide(from, to, date, nPlaces, price);
-			// next instruction can be obviated
-			db.persist(driver);
-			db.getTransaction().commit();
+	// ANALIZAR
 
-			return ride;
-		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
+	public Ride createRide(RideDetails details) throws RideAlreadyExistException, RideMustBeLaterThanTodayException {
+		System.out.println(">> DataAccess: createRide=> from= " + details.getFrom() + " to= " + details.getTo()
+				+ " driver=" + details.getDriverName() + " date " + details.getDate());
+		if (details.getDriverName() == null)
 			return null;
-		}
-		
 
+		validateRideDate(details.getDate());
+
+		db.getTransaction().begin();
+		Driver driver = db.find(Driver.class, details.getDriverName());
+		checkIfRideExists(driver, details.getFrom(), details.getTo(), details.getDate());
+
+		Ride ride = driver.addRide(details.getFrom(), details.getTo(), details.getDate(), details.getNPlaces(),
+				details.getPrice());
+		db.persist(driver);
+		db.getTransaction().commit();
+		return ride;
+	}
+
+	private void validateRideDate(Date date) throws RideMustBeLaterThanTodayException {
+		if (new Date().compareTo(date) > 0) {
+			throw new RideMustBeLaterThanTodayException(
+					ResourceBundle.getBundle("Etiquetas").getString("CreateRideGUI.ErrorRideMustBeLaterThanToday"));
+		}
+	}
+
+	private void checkIfRideExists(Driver driver, String from, String to, Date date) throws RideAlreadyExistException {
+		if (driver.doesRideExists(from, to, date)) {
+			db.getTransaction().commit();
+			throw new RideAlreadyExistException(
+					ResourceBundle.getBundle("Etiquetas").getString("DataAccess.RideAlreadyExist"));
+		}
 	}
 
 	/**
@@ -322,7 +324,7 @@ public class DataAccess {
 			emf = Persistence.createEntityManagerFactory("objectdb:" + fileName);
 			db = emf.createEntityManager();
 		} else {
-			Map<String, String> properties = new HashMap<>(); 
+			Map<String, String> properties = new HashMap<>();
 			properties.put("javax.persistence.jdbc.user", c.getUser());
 			properties.put("javax.persistence.jdbc.password", c.getPassword());
 
@@ -340,11 +342,11 @@ public class DataAccess {
 	}
 
 	public User getUser(String erab) {
-		
-			TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
-			query.setParameter("username", erab);
-			return query.getSingleResult();
-		
+
+		TypedQuery<User> query = db.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+		query.setParameter("username", erab);
+		return query.getSingleResult();
+
 	}
 
 	public double getActualMoney(String erab) {
@@ -360,26 +362,27 @@ public class DataAccess {
 	}
 
 	public boolean isRegistered(String erab, String passwd) {
+		return isTravelerRegistered(erab, passwd) || isDriverRegistered(erab, passwd) || isAdmin(erab, passwd);
+	}
+
+	private boolean isTravelerRegistered(String erab, String passwd) {
 		TypedQuery<Long> travelerQuery = db.createQuery(
 				"SELECT COUNT(t) FROM Traveler t WHERE t.username = :username AND t.passwd = :passwd", Long.class);
 		travelerQuery.setParameter("username", erab);
 		travelerQuery.setParameter("passwd", passwd);
-		Long travelerCount = travelerQuery.getSingleResult();
+		return travelerQuery.getSingleResult() > 0;
+	}
 
+	private boolean isDriverRegistered(String erab, String passwd) {
 		TypedQuery<Long> driverQuery = db.createQuery(
 				"SELECT COUNT(d) FROM Driver d WHERE d.username = :username AND d.passwd = :passwd", Long.class);
 		driverQuery.setParameter("username", erab);
 		driverQuery.setParameter("passwd", passwd);
-		Long driverCount = driverQuery.getSingleResult();
+		return driverQuery.getSingleResult() > 0;
+	}
 
-		/*TypedQuery<Long> adminQuery = db.createQuery(
-				"SELECT COUNT(a) FROM Admin a WHERE a.username = :username AND a.passwd = :passwd", Long.class);
-		adminQuery.setParameter("username", erab);
-		adminQuery.setParameter("passwd", passwd);
-		Long adminCount = adminQuery.getSingleResult();*/
-
-		boolean isAdmin=((erab.compareTo("admin")==0) && (passwd.compareTo(adminPass)==0));
-		return travelerCount > 0 || driverCount > 0 || isAdmin;
+	private boolean isAdmin(String erab, String passwd) {
+		return erab.equals("admin") && passwd.equals(adminPass);
 	}
 
 	public Driver getDriver(String erab) {
@@ -405,16 +408,13 @@ public class DataAccess {
 		}
 	}
 
-	/*public Admin getAdmin(String erab) {
-		TypedQuery<Admin> query = db.createQuery("SELECT a FROM Admin a WHERE t.username = :username", Admin.class);
-		query.setParameter("username", erab);
-		List<Admin> resultList = query.getResultList();
-		if (resultList.isEmpty()) {
-			return null;
-		} else {
-			return resultList.get(0);
-		}
-	}*/
+	/*
+	 * public Admin getAdmin(String erab) { TypedQuery<Admin> query =
+	 * db.createQuery("SELECT a FROM Admin a WHERE t.username = :username",
+	 * Admin.class); query.setParameter("username", erab); List<Admin> resultList =
+	 * query.getResultList(); if (resultList.isEmpty()) { return null; } else {
+	 * return resultList.get(0); } }
+	 */
 
 	public String getMotabyUsername(String erab) {
 		TypedQuery<String> driverQuery = db.createQuery("SELECT d.mota FROM Driver d WHERE d.username = :username",
@@ -427,18 +427,20 @@ public class DataAccess {
 		travelerQuery.setParameter("username", erab);
 		List<String> travelerResultList = travelerQuery.getResultList();
 
-		/*TypedQuery<String> adminQuery = db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
-				String.class);
-		adminQuery.setParameter("username", erab);
-		List<String> adminResultList = adminQuery.getResultList();*/
+		/*
+		 * TypedQuery<String> adminQuery =
+		 * db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
+		 * String.class); adminQuery.setParameter("username", erab); List<String>
+		 * adminResultList = adminQuery.getResultList();
+		 */
 
 		if (!driverResultList.isEmpty()) {
 			return driverResultList.get(0);
 		} else if (!travelerResultList.isEmpty()) {
 			return travelerResultList.get(0);
-		} else  {
+		} else {
 			return "Admin";
-		} 
+		}
 	}
 
 	public boolean addDriver(String username, String password) {
@@ -486,7 +488,7 @@ public class DataAccess {
 		try {
 			db.getTransaction().begin();
 			User user = getUser(username);
-			
+
 			if (user != null) {
 				double currentMoney = user.getMoney();
 				if (deposit) {
@@ -496,7 +498,7 @@ public class DataAccess {
 						user.setMoney(0);
 					else
 						user.setMoney(currentMoney - amount);
-				}	
+				}
 				db.merge(user);
 				db.getTransaction().commit();
 				return true;
@@ -507,7 +509,7 @@ public class DataAccess {
 			e.printStackTrace();
 			db.getTransaction().rollback();
 			return false;
-		}	
+		}
 	}
 
 	public void addMovement(User user, String eragiketa, double amount) {
