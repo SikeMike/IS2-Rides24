@@ -8,6 +8,7 @@ import javax.jws.WebService;
 
 import configuration.ConfigXML;
 import dataAccess.DataAccess;
+import dataAccess.RideDetails;
 import domain.Ride;
 import domain.Traveler;
 import domain.User;
@@ -81,12 +82,18 @@ public class BLFacadeImplementation implements BLFacade {
 	 */
 	@WebMethod
 	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
-			throws RideMustBeLaterThanTodayException, RideAlreadyExistException {
+	        throws RideMustBeLaterThanTodayException, RideAlreadyExistException {
 
-		dbManager.open();
-		Ride ride = dbManager.createRide(from, to, date, nPlaces, price, driverName);
-		dbManager.close();
-		return ride;
+	    dbManager.open();
+	    
+	    // Crea el objeto RideDetails con los parámetros del método
+	    RideDetails details = new RideDetails(from, to, date, nPlaces, price, driverName);
+	    
+	    // Pasa el objeto details al método createRide
+	    Ride ride = dbManager.createRide(details);
+	    
+	    dbManager.close();
+	    return ride;
 	}
 
 	/**

@@ -11,6 +11,7 @@ import java.util.Date;
 import org.junit.Test;
 
 import dataAccess.DataAccess;
+import dataAccess.RideDetails;
 import domain.Ride;
 import exceptions.RideAlreadyExistException;
 import exceptions.RideMustBeLaterThanTodayException;
@@ -57,7 +58,8 @@ public class CreateRideBDWhiteTest {
 				
 				//invoke System Under Test (sut)  
 				sut.open();
-			    ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+				RideDetails details = new RideDetails(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+				ride = sut.createRide(details);
 
 				//verify the results
 				assertNull(ride);
@@ -103,7 +105,9 @@ public class CreateRideBDWhiteTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    Ride r=sut.createRide(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			RideDetails details = new RideDetails(rideFrom, rideTo, rideDate, 0, 0, driverUsername);
+			Ride r = sut.createRide(details);
+
 			sut.close();
 			
 			assertNull(r);
@@ -152,7 +156,9 @@ public class CreateRideBDWhiteTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-		    sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			RideDetails details = new RideDetails(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			sut.createRide(details);
+
 			sut.close();
 			
 			fail();
@@ -204,7 +210,9 @@ public class CreateRideBDWhiteTest {
 			
 			//invoke System Under Test (sut)  
 			sut.open();
-			Ride ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			RideDetails details = new RideDetails(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			Ride ride = sut.createRide(details);
+
 			
 			//if the program goes to this point fail
 			fail();
@@ -261,7 +269,9 @@ public class CreateRideBDWhiteTest {
 		try {
 			//invoke System Under Test (sut)  
 			sut.open();
-			 ride=sut.createRide(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			RideDetails details = new RideDetails(rideFrom, rideTo, rideDate, 2, 10, driverUsername);
+			ride = sut.createRide(details);
+
 			sut.close();			
 			
 			//verify the results
@@ -296,9 +306,5 @@ public class CreateRideBDWhiteTest {
 			
 		        }
 		   }
-		   
-	@Test
-	public void test6() {
-		// Hola
-	}
+	
 }

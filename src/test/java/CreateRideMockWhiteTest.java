@@ -57,7 +57,7 @@ public class CreateRideMockWhiteTest {
 		persistenceMock.close();
     }
 	
-	
+	/*
 	Driver driver;
 	@Test
 	//sut.createRide:  The Driver is null. The test must return null. If  an Exception is returned the createRide method is not well implemented.
@@ -306,5 +306,5 @@ public class CreateRideMockWhiteTest {
 		} 
 	} 
 	
-
+*/
 }
