@@ -273,7 +273,7 @@ public class CreateRideBDWhiteTest {
 			ride = sut.createRide(details);
 
 			sut.close();			
-			
+			  
 			//verify the results
 			assertNotNull(ride);
 			

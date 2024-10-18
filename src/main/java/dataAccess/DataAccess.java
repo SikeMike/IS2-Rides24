@@ -417,31 +417,21 @@ public class DataAccess {
 	 */
 
 	public String getMotabyUsername(String erab) {
-		TypedQuery<String> driverQuery = db.createQuery("SELECT d.mota FROM Driver d WHERE d.username = :username",
-				String.class);
-		driverQuery.setParameter("username", erab);
-		List<String> driverResultList = driverQuery.getResultList();
-
-		TypedQuery<String> travelerQuery = db.createQuery("SELECT t.mota FROM Traveler t WHERE t.username = :username",
-				String.class);
-		travelerQuery.setParameter("username", erab);
-		List<String> travelerResultList = travelerQuery.getResultList();
-
-		/*
-		 * TypedQuery<String> adminQuery =
-		 * db.createQuery("SELECT a.mota FROM Admin a WHERE a.username = :username",
-		 * String.class); adminQuery.setParameter("username", erab); List<String>
-		 * adminResultList = adminQuery.getResultList();
-		 */
-
-		if (!driverResultList.isEmpty()) {
-			return driverResultList.get(0);
-		} else if (!travelerResultList.isEmpty()) {
-			return travelerResultList.get(0);
-		} else {
-			return "Admin";
+		   String driverMota = getMotaForUser("Driver", erab);
+		   String travelerMota = getMotaForUser("Traveler", erab);
+		   
+		   if (driverMota != null) return driverMota;
+		   if (travelerMota != null) return travelerMota;
+		   return "Admin";
 		}
-	}
+
+		private String getMotaForUser(String userType, String erab) {
+		   TypedQuery<String> query = db.createQuery("SELECT u.mota FROM " + userType + " u WHERE u.username = :username", String.class);
+		   query.setParameter("username", erab);
+		   List<String> resultList = query.getResultList();
+		   return resultList.isEmpty() ? null : resultList.get(0);
+		}
+
 
 	public boolean addDriver(String username, String password) {
 		try {
