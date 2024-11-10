@@ -40,13 +40,24 @@ public class BLFacadeImplementation implements BLFacade {
 	}
 
 	public BLFacadeImplementation(DataAccess da) {
-
 		System.out.println("Creating BLFacadeImplementation instance with DataAccess parameter");
-		@SuppressWarnings("unused")
-		ConfigXML c = ConfigXML.getInstance();
-
 		dbManager = da;
+
+		ConfigXML config = ConfigXML.getInstance();
+		if (config.isDatabaseInitialized()) {
+			dbManager.initializeDB();
+		}
 	}
+
+	@Override
+	public ExtendedIterator<String> getDepartingCitiesIterator() {
+	    dbManager.open(); 
+	    List<String> cities = dbManager.getDepartCities();
+	    dbManager.close(); 
+	    System.out.println("Cities for iterator: " + cities); 
+	    return new CityIterator<>(cities);
+	}
+
 
 	/**
 	 * {@inheritDoc}
@@ -82,18 +93,18 @@ public class BLFacadeImplementation implements BLFacade {
 	 */
 	@WebMethod
 	public Ride createRide(String from, String to, Date date, int nPlaces, float price, String driverName)
-	        throws RideMustBeLaterThanTodayException, RideAlreadyExistException {
+			throws RideMustBeLaterThanTodayException, RideAlreadyExistException {
 
-	    dbManager.open();
-	    
-	    // Crea el objeto RideDetails con los parámetros del método
-	    RideDetails details = new RideDetails(from, to, date, nPlaces, price, driverName);
-	    
-	    // Pasa el objeto details al método createRide
-	    Ride ride = dbManager.createRide(details);
-	    
-	    dbManager.close();
-	    return ride;
+		dbManager.open();
+
+		// Crea el objeto RideDetails con los parámetros del método
+		RideDetails details = new RideDetails(from, to, date, nPlaces, price, driverName);
+
+		// Pasa el objeto details al método createRide
+		Ride ride = dbManager.createRide(details);
+
+		dbManager.close();
+		return ride;
 	}
 
 	/**
@@ -175,13 +186,10 @@ public class BLFacadeImplementation implements BLFacade {
 		return t;
 	}
 
-	/*@Override
-	public Admin getAdmin(String erab) {
-		dbManager.open();
-		Admin a = dbManager.getAdmin(erab);
-		dbManager.close();
-		return a;
-	}*/
+	/*
+	 * @Override public Admin getAdmin(String erab) { dbManager.open(); Admin a =
+	 * dbManager.getAdmin(erab); dbManager.close(); return a; }
+	 */
 
 	@Override
 	public String getMotaByUsername(String erab) {

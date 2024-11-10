@@ -32,10 +32,13 @@ public class DataAccess {
 	private String adminPass = "admin";
 
 	public DataAccess() {
+		
 		if (c.isDatabaseInitialized()) {
+			
 			String fileName = c.getDbFilename();
 
 			File fileToDelete = new File(fileName);
+			
 			if (fileToDelete.delete()) {
 				File fileToDeleteTemp = new File(fileName + "$");
 				fileToDeleteTemp.delete();
@@ -69,6 +72,10 @@ public class DataAccess {
 	 * dataBaseOpenMode of resources/config.xml file
 	 */
 	public void initializeDB() {
+		
+		if (!db.isOpen()) {
+	        db = emf.createEntityManager(); }
+		
 		db.getTransaction().begin();
 		try {
 			Driver driver1 = new Driver("Urtzi", "123");
@@ -106,10 +113,16 @@ public class DataAccess {
 			Date date4 = UtilDate.trim(cal.getTime());
 
 			driver1.addRide("Donostia", "Madrid", date2, 5, 20); // ride1
+			System.out.println("Added ride from Donostia to Madrid");
 			driver1.addRide("Irun", "Donostia", date2, 5, 2); // ride2
+			System.out.println("Added ride from Irun to Donostia");
 			driver1.addRide("Madrid", "Donostia", date3, 5, 5); // ride3
+			System.out.println("Added ride from Madrid to Donostia");
 			driver1.addRide("Barcelona", "Madrid", date4, 0, 10); // ride4
+			System.out.println("Added ride from Barcelona to Madrid");
 			driver2.addRide("Donostia", "Hondarribi", date1, 5, 3); // ride5
+			System.out.println("Added ride from Donostia to Hondarribi");
+
 
 			Ride ride1 = driver1.getCreatedRides().get(0);
 			Ride ride2 = driver1.getCreatedRides().get(1);
@@ -189,11 +202,12 @@ public class DataAccess {
 	 * @return collection of cities
 	 */
 	public List<String> getDepartCities() {
-		TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
-		List<String> cities = query.getResultList();
-		return cities;
-
+	    TypedQuery<String> query = db.createQuery("SELECT DISTINCT r.from FROM Ride r ORDER BY r.from", String.class);
+	    List<String> cities = query.getResultList();
+	    System.out.println("Cities retrieved: " + cities); 
+	    return cities;
 	}
+
 
 	/**
 	 * This method returns all the arrival destinations, from all rides that depart
